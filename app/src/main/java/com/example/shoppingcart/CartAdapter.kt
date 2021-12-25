@@ -30,5 +30,5 @@ class CartAdapter(private val wholeCart: List<Cart>) : RecyclerView.Adapter<Cart
         }
     }
 
-    override fun getItemCount():Int = wholeCart.size
+    override fun getItemCount()= wholeCart.size
 }
