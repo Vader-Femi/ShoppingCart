@@ -1,10 +1,10 @@
-package com.example.shoppingcart
+package com.example.shoppingcart.database
 
 import android.content.Context
-import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.shoppingcart.model.Cart
 
 @Database(
     version = 1,
@@ -20,7 +20,7 @@ abstract class CartDatabase : RoomDatabase(){
         private var instance: CartDatabase? = null
         private val LOCK = Any()
 
-        fun invoke(context: Context) = instance?: synchronized(LOCK){
+        fun invoke(context: Context) = instance ?: synchronized(LOCK){
             instance ?: createDatabase(context).also {
                 instance = it
             }

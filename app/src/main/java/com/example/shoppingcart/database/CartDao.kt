@@ -1,7 +1,8 @@
-package com.example.shoppingcart
+package com.example.shoppingcart.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.shoppingcart.model.Cart
 
 @Dao
 interface CartDao {

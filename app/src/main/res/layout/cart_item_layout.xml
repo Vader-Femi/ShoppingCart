@@ -5,17 +5,12 @@
     <data>
 
     </data>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="7dp">
-
         <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="7dp"
-            app:cardElevation="7dp">
+            app:cardElevation="7dp"
+            android:layout_margin="7dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -40,6 +35,4 @@
                     android:layout_alignParentEnd="true" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
-
-    </FrameLayout>
 </layout>

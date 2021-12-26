@@ -1,4 +1,4 @@
-package com.example.shoppingcart
+package com.example.shoppingcart.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -13,5 +13,5 @@ data class Cart(
     var item: String,
 
     @ColumnInfo(name = "price")
-    var price: Int
+    var price: Float
 )
