@@ -1,10 +1,14 @@
 package com.example.shoppingcart.activities
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.shoppingcart.adapters.CartAdapter
@@ -19,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var database: CartDatabase
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
@@ -39,29 +44,58 @@ class MainActivity : AppCompatActivity() {
         val itemTouchHelper = ItemTouchHelper(swipeHandler)
         itemTouchHelper.attachToRecyclerView(binding.shoppingCartRv)
 
-        //Add To Cart
+        //Add To Cart Button
         binding.addToCartButton.setOnClickListener {
             addToCart(binding)
         }
+
+        //Delete All Button
+        binding.addToCartButton.setOnLongClickListener {
+            database.cartDao().nukeCart()
+            wholeCart.removeAll { true }
+            (binding.shoppingCartRv.adapter as CartAdapter).notifyDataSetChanged()
+            Toast.makeText(
+                this@MainActivity,
+                "Shopping Cart Nuked",
+                Toast.LENGTH_SHORT
+            ).show()
+            true
+        }
     }
 
-    private fun addToCart(
-        binding: ActivityMainBinding
-    ) {
+    private fun addToCart(binding: ActivityMainBinding) {
         binding.apply {
             val adapter = binding.shoppingCartRv.adapter as CartAdapter
-            val inputtedItemName = addItemName.text.toString()
-            val inputtedItemPrice =
-                if (addItemPrice.text.isNullOrEmpty()) 0 else addItemPrice.text.toString().toFloat()
-            val item = Cart(
-                0,
-                inputtedItemName,
-                inputtedItemPrice as Float
-            )
-            adapter.addToCartAndRecyclerView(item, 0, binding)
+            if (addItemName.text.isNullOrEmpty()){
+                Toast.makeText(
+                    this@MainActivity,
+                    "Name cannot be empty",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else{
+                val inputtedItemName = addItemName.text.toString()
+                val inputtedItemPrice = if (addItemPrice.text.isNullOrEmpty()) "0" else addItemPrice.text.toString()
+                try {
+                    inputtedItemPrice.toFloat()
+                    val item = Cart(
+                        0,
+                        inputtedItemName,
+                        inputtedItemPrice.toFloat()
+                    )
+                    adapter.addToCartAndRecyclerView(item, 0, binding)
 
-            addItemName.text?.clear()
-            addItemPrice.text?.clear()
+                    addItemName.text?.clear()
+                    addItemPrice.text?.clear()
+                } catch (e: NumberFormatException) {
+                    Log.d("Save", "Pre Toast")
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Price cannot contain letters or special characters except Dot(.)",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    addItemPrice.text?.clear()
+                }
+            }
         }
     }
 
@@ -75,6 +109,10 @@ class MainActivity : AppCompatActivity() {
                 binding.shoppingCartRv.layoutManager =
                     StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
             }
+            Configuration.ORIENTATION_UNDEFINED -> {
+                binding.shoppingCartRv.layoutManager =
+                    LinearLayoutManager(this)
+            }
         }
     }
 
@@ -84,25 +122,24 @@ class MainActivity : AppCompatActivity() {
         val swipeHandler = object : SwipeToDelete() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 
-                    val position = viewHolder.adapterPosition
-                    val adapter = binding.shoppingCartRv.adapter as CartAdapter
+                val position = viewHolder.adapterPosition
+                val adapter = binding.shoppingCartRv.adapter as CartAdapter
 
-                    val item = adapter.getCartAtPosition(position)
+                val item = adapter.getCartAtPosition(position)
 
-                    Snackbar.make(
-                        binding.parentLayout,// The ID of your coordinator_layout
-                        "Deleting ${item.item}",
-                        Snackbar.LENGTH_LONG
-                    ).apply {
-                        setAction("UNDO") {
-                            adapter.addToCartAndRecyclerView(item, position, binding)
-                        }
-                        setActionTextColor(Color.MAGENTA)
-                    }.show()
-                    (binding.shoppingCartRv.adapter as CartAdapter).removeAt(viewHolder.adapterPosition)
+                Snackbar.make(
+                    binding.parentLayout,// The ID of your coordinator_layout
+                    "Deleting ${item.item}",
+                    Snackbar.LENGTH_LONG
+                ).apply {
+                    setAction("UNDO") {
+                        adapter.addToCartAndRecyclerView(item, position, binding)
+                    }
+                    setActionTextColor(Color.MAGENTA)
+                }.show()
+                (binding.shoppingCartRv.adapter as CartAdapter).removeAt(viewHolder.adapterPosition)
             }
         }
-
         return swipeHandler
     }
 }

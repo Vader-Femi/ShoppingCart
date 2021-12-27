@@ -50,6 +50,7 @@ class CartAdapter(private val wholeCart: MutableList<Cart>, context: Context) :
         database.cartDao().addTOCart(item)
         wholeCart.add(position,item)
         binding.shoppingCartRv.adapter?.notifyItemInserted(position)
+        binding.shoppingCartRv.scrollToPosition(position)
     }
 
     fun removeAt(position: Int) {

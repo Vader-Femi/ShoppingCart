@@ -39,6 +39,7 @@
                     android:layout_height="wrap_content"
                     android:animateLayoutChanges="true"
                     android:hint="@string/item_name"
+                    android:importantForAutofill="yes"
                     app:layout_constraintBottom_toTopOf="@id/add_item_price"
                     app:layout_constraintEnd_toStartOf="@id/add_to_cart_button"
                     app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +66,5 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="1.0" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </RelativeLayout>
-
 </layout>

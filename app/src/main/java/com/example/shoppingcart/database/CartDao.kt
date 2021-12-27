@@ -20,4 +20,7 @@ interface CartDao {
 
     @Delete
     fun deleteItem(item: Cart)
+
+    @Query("DELETE FROM cart_items")
+    fun nukeCart()
 }
