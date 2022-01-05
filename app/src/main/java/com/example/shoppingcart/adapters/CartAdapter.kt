@@ -41,9 +41,9 @@ class CartAdapter(private val wholeCart: MutableList<Cart>, context: Context) :
     override fun getItemCount() = wholeCart.size
 
     fun getCartAtPosition(position: Int) = Cart(
-        wholeCart[position].id,
-        wholeCart[position].item,
-        wholeCart[position].price
+        id = wholeCart[position].id,
+        item = wholeCart[position].item,
+        price = wholeCart[position].price
     )
 
     fun addToCartAndRecyclerView(item: Cart,position: Int,binding:ActivityMainBinding){
@@ -56,16 +56,16 @@ class CartAdapter(private val wholeCart: MutableList<Cart>, context: Context) :
     fun removeAt(position: Int) {
         database.cartDao().deleteItem(
             Cart(
-                wholeCart[position].id,
-                wholeCart[position].item,
-                wholeCart[position].price
+                id = wholeCart[position].id,
+                item = wholeCart[position].item,
+                price = wholeCart[position].price
             )
         )
         wholeCart.remove(
             Cart(
-                wholeCart[position].id,
-                wholeCart[position].item,
-                wholeCart[position].price
+                id = wholeCart[position].id,
+                item = wholeCart[position].item,
+                price = wholeCart[position].price
             )
         )
         notifyItemRemoved(position)

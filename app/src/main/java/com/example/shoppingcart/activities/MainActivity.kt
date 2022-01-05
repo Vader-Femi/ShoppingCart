@@ -1,6 +1,5 @@
 package com.example.shoppingcart.activities
 
-import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
@@ -23,7 +22,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var database: CartDatabase
 
-    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
@@ -78,9 +76,8 @@ class MainActivity : AppCompatActivity() {
                 try {
                     inputtedItemPrice.toFloat()
                     val item = Cart(
-                        0,
-                        inputtedItemName,
-                        inputtedItemPrice.toFloat()
+                        item = inputtedItemName,
+                        price = inputtedItemPrice.toFloat()
                     )
                     adapter.addToCartAndRecyclerView(item, 0, binding)
 
