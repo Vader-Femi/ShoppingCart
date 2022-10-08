@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        supportActionBar?.hide()
+//        supportActionBar?.hide()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -50,13 +50,23 @@ class MainActivity : AppCompatActivity() {
         //Delete All Button
         binding.addToCartButton.setOnLongClickListener {
             database.cartDao().nukeCart()
-            wholeCart.removeAll { true }
-            (binding.shoppingCartRv.adapter as CartAdapter).notifyDataSetChanged()
-            Toast.makeText(
-                this@MainActivity,
-                "Shopping Cart Nuked",
-                Toast.LENGTH_SHORT
-            ).show()
+            Snackbar.make(
+                binding.parentLayout,// The ID of your coordinator_layout
+                "Are you sure you want to delete all items?",
+                Snackbar.LENGTH_SHORT
+            ).apply {
+                setAction("Yes") {
+                    wholeCart.removeAll { true }
+                    (binding.shoppingCartRv.adapter as CartAdapter).notifyDataSetChanged()
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Shopping Cart Nuked",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                setActionTextColor(Color.MAGENTA)
+
+            }.show()
             true
         }
     }
@@ -71,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             } else{
-                val inputtedItemName = addItemName.text.toString()
+                val inputtedItemName = addItemName.text.toString().trim()
                 val inputtedItemPrice = if (addItemPrice.text.isNullOrEmpty()) "0" else addItemPrice.text.toString()
                 try {
                     inputtedItemPrice.toFloat()

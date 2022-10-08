@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="item_name">Item Name</string>
-    <string name="add_to_cart">Add To Cart</string>
-    <string name="item_price">Item Price (Optional)</string>
-    <string name="currency">Naira</string>
-</resources>
