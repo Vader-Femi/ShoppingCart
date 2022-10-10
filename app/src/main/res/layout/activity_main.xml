@@ -34,7 +34,8 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/add_item_name_layout"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_margin="8dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toStartOf="@+id/add_to_cart_button"
@@ -52,9 +53,12 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/add_item_price_layout"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_margin="8dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="10"
                     app:layout_constraintEnd_toStartOf="@+id/add_to_cart_button"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/add_item_name_layout">
@@ -64,6 +68,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="@string/item_price"
+                        android:maxLength="10"
                         android:inputType="numberDecimal" />
 
                 </com.google.android.material.textfield.TextInputLayout>

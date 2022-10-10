@@ -49,7 +49,6 @@ class CartAdapter(private val wholeCart: MutableList<Cart>, context: Context) :
             val formatCurrency = NumberFormat.getCurrencyInstance(localeID)
             val amount = formatCurrency.format(wholeCart[position].price.toString().toDouble())
             itemPrice.text = amount
-            itemPrice.append(" ${itemView.context.getString(R.string.currency)}")
 
             cardView.setOnClickListener {
                 val edit_item_view = LayoutInflater.from(it.context)
